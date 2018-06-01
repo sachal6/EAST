@@ -13,25 +13,25 @@ from PIL import Image as PILImage
 
 
 def makePredictions(imgFile, polygonsFile, dbFile):
-    '''
+    """
     Given an image, the polygons, and the database csv -
-    return a list of (UPC, confidence) prediction duples
+    return a list of (UPC, confidence) prediction tuples
 
     Usage: predictionsDuples = makePredictions('sampleImage.png', 'samplePolygons.txt', 'montrealUPCs.csv')
-    '''
+    """
     text = detectAndRecognizeText(imgFile, polygonsFile)
     return fuzzySearch(text, dbFile)
 
 
 def detectAndRecognizeText(imgFile, polygonsFile):
 
-    '''
+    """
     Given an image and its corresponding text-bounding-boxes (from EAST) -
     return the raw text that is read
 
     Note: automatically parses out punctuation and numerals because of poor
     OCR detection quality
-    '''
+    """
     image = cv2.imread(imgFile)
     height, width = image.shape[:2]
     readText = []
@@ -63,9 +63,9 @@ def detectAndRecognizeText(imgFile, polygonsFile):
 
 
 def recognizeText(image):
-    '''
+    """
     Takes cv2 imread object and returns any present text as a single string
-    '''
+    """
     #create temp file for tesseract ocr
     filename = "{}.png".format(os.getpid())
     mplImg.imsave(filename, image)
@@ -77,10 +77,10 @@ def recognizeText(image):
 
 
 def fuzzySearch(text, dbFile):
-    '''
+    """
     Takes in a string of text and fuzzy searches through it to to find corresponding matches in the database
     return a list of (UPC, confidence) prediction duples
-    '''
+    """
 
     products = productNamesFetcher.fetchNames(dbFile)
 
